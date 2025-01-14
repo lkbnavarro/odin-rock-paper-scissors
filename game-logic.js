@@ -13,44 +13,78 @@ getComputerChoice = () => {
 }
 
 getHumanChoice = () => {
-    let answer = prompt("Choose between ROCK, PAPER or SCISSORS: ", "Default")
-    answer = answer.toLowerCase();
-    
-    if(answer == "rock" || answer == "paper" || answer == "scissors"){
-        return answer;
-    } else{
-        return "Invalid answer."
+    let choice_flag = 0;
+
+    while(choice_flag == 0){
+        let answer = prompt("Choose between ROCK, PAPER or SCISSORS: ", "Default")
+        answer = answer.toLowerCase();
+        if(answer == "rock" || answer == "paper" || answer == "scissors"){
+            choice_flag = 1;
+            return answer;
+        }
     }
 }
-
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
 
 playRound = (humanChoice, computerChoice) => {
     const choiceA = humanChoice;
     const choiceB = computerChoice;
+    let winner;
 
     if((choiceA == 'rock' && choiceB == 'scissors') || (choiceA == 'paper' && choiceB == 'rock') || (choiceA == 'scissors' && choiceB == 'paper')){
-        console.log("Human won this round.");
+        winner = "1";
         humanScore++;
     } else if (choiceA == choiceB){
+        winner = "3";
         console.log("Draw.")
     } else {
+        winner = "2";
         console.log("Computer won this round.");
         computerScore++;
     }
+    
+    if(winner == "1"){
+        console.group();
+        console.log("Human won this round.");
+        console.log(`Human: ${choiceA}`);
+        console.log(`Computer: ${choiceB}`);
+        console.groupEnd();
+    } else if (winner == "2"){
+        console.group();
+        console.log("Computer won this round.");
+        console.log(`Human: ${choiceA}`);
+        console.log(`Computer: ${choiceB}`);
+        console.groupEnd();
+    } else {
+        console.group();
+        console.log("Draw Round");
+        console.log(`Human: ${choiceA}`);
+        console.log(`Computer: ${choiceB}`);
+        console.groupEnd();
+    }
 
-    console.log(`Human: ${choiceA}`);
-    console.log(`Computer: ${choiceB}`);
     round++;
 }
 
 playGame = () => {
-    do{
+
+    while(humanScore != 5 || computerScore !=5){
+        const humanSelection = getHumanChoice();
+        const computerSelection = getComputerChoice();
         playRound(humanSelection, computerSelection);
-        console.log(`Scoreboard - Human: ${humanScore} vs Computer: ${computerScore}`);
+        console.info(`Round ${round} - Human: ${humanScore} vs Computer: ${computerScore}`);
+
+        if(humanScore == 5){
+            break;
+        } else if (computerScore == 5) {
+            break;
+        }
     }
-    while(humanScore != 5 || computerScore !=5);
+
+    if(humanScore == 5){
+        console.log(`Congratulations! You won.`)
+    } else if (computerScore ==  5){
+        console.log(`You lost. Try again.`)
+    }
 }
 
-//playGame();
+playGame();
