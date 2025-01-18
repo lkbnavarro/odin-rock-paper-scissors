@@ -1,0 +1,38 @@
+body{
+    background-color: white;
+    text-align: center;
+
+}
+
+h1{
+    margin: 20px 0px;
+    font-family: "Jersey 15";
+    font-size: 100px;
+}
+
+/* #btn-container{
+    border-color: black;
+    border-radius: 5px;
+    border-style: solid;
+    margin: 10px;
+} */
+
+#score-container{
+    display: flex;
+    flex-direction: column;
+}
+
+#humanSB, #compSB{
+    margin: 5px;
+}
+
+#rock-btn, #paper-btn, #scissors-btn{
+    padding: 5px 15px;
+    margin: 10px;
+    font-size: 20px;
+}
+
+.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

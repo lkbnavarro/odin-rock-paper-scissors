@@ -2,6 +2,10 @@
 
 let humanScore = 0, computerScore = 0, round = 0;
 
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
+
 getComputerChoice = () => {
     let random_num = Math.random();
     //console.log(random_num);
@@ -23,6 +27,30 @@ getHumanChoice = () => {
             return answer;
         }
     }
+}
+
+getHumanChoiceButton = () => {
+    let choice_flag = 0;
+    let answer;
+    
+    console.log("Select button: ");
+    while ((answer != "rock" || answer!="paper" || answer == "scissors") && (choice_flag != 1)){
+        rockButton.addEventListener("click", () => {
+            choice_flag = 1;
+            console.log(`Selected: ${answer}.`);
+            return answer;
+        })
+    }
+
+    // while(choice_flag == 0){
+    //     let answer = prompt("Choose between ROCK, PAPER or SCISSORS: ", "Default")
+    //     answer = answer.toLowerCase();
+    //     if(answer == "rock" || answer == "paper" || answer == "scissors"){
+    //         choice_flag = 1;
+    //         return answer;
+    //     }
+    // }
+
 }
 
 playRound = (humanChoice, computerChoice) => {
@@ -87,4 +115,4 @@ playGame = () => {
     }
 }
 
-playGame();
+//playGame();
