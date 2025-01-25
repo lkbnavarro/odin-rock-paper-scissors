@@ -3,7 +3,7 @@ const body = document.body;
 const result = document.createElement("div");
 
 const btnContainer = document.createElement("div");
-btnContainer.setAttribute("id", "btn-container")
+btnContainer.setAttribute("id", "btn-container");
 
 const logsContainer = document.createElement("div");
 logsContainer.setAttribute("id", "logs-container")
@@ -34,6 +34,9 @@ const compScoreBoard = document.createElement("div")
 compScoreBoard.textContent = "Computer: 0"
 compScoreBoard.id = "compSB"
 
+const winnerScoreBoard = document.createElement("div")
+winnerScoreBoard.id = "winnerSB"
+
 
 result.textContent = "Click a button to start!";
 
@@ -45,15 +48,16 @@ btnContainer.append(paperbtn);
 btnContainer.append(scissorsbtn);
 scoreboardContainer.append(humanScoreBoard);
 scoreboardContainer.append(compScoreBoard);
+scoreboardContainer.append(winnerScoreBoard);
 
-body.append(scoreboardContainer);
 body.append(logsContainer);
+body.append(scoreboardContainer);
 logsContainer.append(result);
 
 
 
 const buttons = document.querySelectorAll('button');
-let round = 0, humanScore = 0, computerScore = 0;
+let humanScore = 0, computerScore = 0;
 
 function getComputerSelection(){
     let randomNumber = Math.random();
@@ -67,7 +71,6 @@ function getComputerSelection(){
 }
 
 playRound = (human, computer) => {
-    round++
     if(human === computer){
         return "Draw."
     }else if((human === 'rock' || computer === 'scissors') || (human === 'paper' && computer === 'rock') || (human === 'scissors' && computer === 'paper')){
@@ -81,36 +84,52 @@ playRound = (human, computer) => {
 
 
 function displayResult(choiceH, choiceC, humanCurrentScore, compCurrentScore, currentRound){
-    // const status = document.createElement("div")
-    // status.innerText = `
-    //     Round: ${currentRound} \n Human: ${choiceH} \n Computer: ${choiceC} \n
-    //     Human Score: ${humanCurrentScore} \n Computer Score: ${compCurrentScore} \n
-    //     `
     result.innerText = `
         Round: ${currentRound} \n 
         Human: ${choiceH} \n Computer: ${choiceC} \n`
-
     humanScoreBoard.innerText = `Human: ${humanCurrentScore}`;
     compScoreBoard.innerText = `Computer: ${compCurrentScore}`;
 }
 
-buttons.forEach(button => {
-    button.addEventListener("click", () => {
-        if(round != 5){
-            const humanChoice = button.value;
-            const computerChoice = getComputerSelection();
-            playRound(humanChoice, computerChoice);
-            displayResult(humanChoice, computerChoice, humanScore, computerScore, round);
-            // rockbtn.classList = "disabled"
-            // paperbtn.classList = "disabled"
-            // scissorsbtn.classList = "disabled"
-        } else{
-            const gameResult = document.createElement("div")
-            gameResult.innerText = "The game has ended."
-            result.append(gameResult)
-            
-        }
-    })
+function determineWinner(){
+    if(humanScore > computerScore){
+        return "You won the game!"
+    } else if(humanScore < computerScore){
+        return "You lost the game."
+    } else{
+        return "The game ended in a draw."
+    }
+}
+
+playGame = () => {
+    let round = 0;
+    if(round != 5){
+        buttons.forEach(button => {
+            button.addEventListener("click", () => {
+                if (round >= 5) {
+                    
+                    buttons.forEach(btn => btn.disabled = true);
+                    return;
+                }
+                round++;
+                const humanChoice = button.value;
+                const computerChoice = getComputerSelection();
+                winnerScoreBoard.innerText = playRound(humanChoice, computerChoice);
+                displayResult(humanChoice, computerChoice, humanScore, computerScore, round);
+                if (round == 5) {
+                    buttons.forEach(btn => btn.disabled = true);
+                    const gameResult = document.createElement("div");
+                    gameResult.id = "game-result";
+                    gameResult.innerText = determineWinner();
+                    body.append(gameResult);
+                }
+            })
+        })
+    }
 
 
-})
+
+
+}
+
+playGame();

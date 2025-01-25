@@ -17,11 +17,6 @@ h1{
     margin: 10px;
 } */
 
-#score-container{
-    display: flex;
-    flex-direction: column;
-}
-
 #humanSB, #compSB{
     margin: 5px;
 }
@@ -35,4 +30,19 @@ h1{
 .disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+#btn-container, #logs-container{
+    border-style: solid;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#score-container{
+    border-style: solid;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
